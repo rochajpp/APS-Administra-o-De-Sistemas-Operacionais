@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/epic/styleInfos.css">
+    <link rel="stylesheet" type="text/css" href="/media.css">
+    <link rel="icon" href="/epic/img/nasa-logo.svg">
+    <title>EPIC - Image</title>
+</head>
+<body>
+    <div class="contentMain">
+        <header>
+            <div class="content contentHeader">
+                <a class="logo" href="/"><img src="/epic/img/nasa-logo.svg"></a>
+
+                <nav>
+                    <ul>
+                        <li><a href="/apod">APOD</a> <span class="text">Astronomical photo of the Day!</span> </li>
+                        <li><a href="/mrp">ACTUAL LOCATION OF THE ISS</a> <span class="text">See the actual location of the ISS</span> </li>
+                        <li style="padding: 0.5rem 1rem; background-color: rgba(255, 255, 255, 0.322); border-radius: 1rem;"><a href="/">EPIC</a></li>
+                    </ul>
+                </nav>
+
+                <div class="links">
+                    <a class="link" href="https://linkedin.com/in/joão-paulo-medeiros-rocha-75445820b"><ion-icon name="logo-linkedin"></ion-icon></a>
+                    <a class="link" href="https://github.com/rochajpp"><ion-icon name="logo-github"></ion-icon></a>
+                </div>
+            </div>
+        </header>
+
+        <section>
+            <div class="content contentHome">
+                <h1 style="font-size: 2rem;">Day <%= dateImg %></h1>
+                <% if(data.length > 0){%>
+                    <div class="container">
+                        
+                        <% for(var i = 0; i < data.length; i++){ %>
+                            <% 
+                                let elements = data[i].date.split(" "); 
+                                let date = elements[0];
+                                date = date.split("-");
+                                let dateString = " ";
+                                
+                                dateString = dateString + date[0];
+                                dateString = dateString + date[1];
+                                dateString = dateString + date[2]
+                            
+                            %>
+                            <div class="image">
+                                <a href="https://epic.gsfc.nasa.gov/archive/<%= type %>/<%= date[0] %>/<%= date[1] %>/<%= date[2] %>/png/<%= data[i].image %>.png">
+                                    <img style="width: 20rem" src="https://epic.gsfc.nasa.gov/archive/<%= type %>/<%= date[0] %>/<%= date[1] %>/<%= date[2] %>/png/<%= data[i].image%>.png">
+                                </a>
+                                <div class="infos">
+                                    <h1><%= elements[1] %></h1>
+                                    <br>
+                                    <div class="positions">
+                                        <div>
+                                            <h1>Lunar Position </h1>
+                                            <p>X: <%= data[i].lunar_j2000_position.x %></p>
+                                         
+                                            <p>Y: <%= data[i].lunar_j2000_position.y %></p>
+                                            
+                                            <p>Z: <%= data[i].lunar_j2000_position.z %></p>
+                                        </div>
+                                        <br>
+                                        <div>
+                                            <h1>Solar Position </h1>
+                                            <p>X: <%= data[i].sun_j2000_position.x %></p>
+                                            <p>Y: <%= data[i].sun_j2000_position.y %></p>
+                                            <p>Z: <%= data[i].sun_j2000_position.z %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <%}%>
+                    </div>
+                <%} else{%>
+                    <h1>There are no <%= type %> images of the day <%= dateImg %></h1>
+                <%}%>
+                <a href="/epic"><button>Back</button></a>
+            </div>
+        </section>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
