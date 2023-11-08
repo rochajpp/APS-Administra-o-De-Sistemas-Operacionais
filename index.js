@@ -1,5 +1,6 @@
-const app = require("./config/server");
+const app = require('./config/server');
 
-app.listen('8080', () => {
-    console.log("Server On");
+
+app.listen('2020', function(){
+    console.log("Servidor ON");
 })

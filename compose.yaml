@@ -14,7 +14,15 @@ services:
     environment:
       NODE_ENV: production
     ports:
-      - 8080:8080
+      - 2020:2020
+
+  db:
+    image: systemdev-mysql:1.0  # Use a imagem Docker que você construiu para o MySQL
+    environment:
+      MYSQL_ROOT_PASSWORD: database
+      MYSQL_DATABASE: systemdev
+      MYSQL_USER: root
+      MYSQL_PASSWORD: database
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to

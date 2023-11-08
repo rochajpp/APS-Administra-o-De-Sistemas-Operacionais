@@ -1,30 +1,31 @@
 module.exports.home = (app, req, res) => {
-    res.render("home/home", {validacao: {}, incorrectPassword: false});
-}
+    
+    res.render('admin/home/adminHome', {validacao: {}});
+};
 
 module.exports.login = (app, req, res) => {
+    app.disable('/admin/studentPage');
     const aluno = req.body;
     console.log(aluno);
 
-    req.assert('matricula', 'Digite a matrícula').notEmpty();
-    req.assert('senha', 'Digite a senha').notEmpty();
-    req.assert('senha', 'Digite a senha corretamente. Ex: 25072003').len(8, 9);
+    req.assert('matricula', 'Enter the Enrollment').notEmpty();
+    req.assert('senha', 'Enter the password').notEmpty();
+    req.assert('senha', 'Enter the password correctly. Ex: 25072003').len(8, 9);
 
     const error = req.validationErrors();
 
     if(error){
         console.log(error);
-        res.render('home/home', {validacao: error, incorrectPassword: false});
+        res.render('admin/home/adminHome', {validacao: error});
         return;
     }
 
     const connection = require('../../config/dbConnection');
     const model = new app.app.models.AlunosDAO(connection);
-    const cripto = require("../../cripto");
 
     model.validarInfo(aluno, (error, result) => {
         if(result == false){      
-            res.render("errors/userNotFound");
+            res.send('User not found');
             return;
         }
         const nascimento = result[0].data_nascimento;
@@ -51,15 +52,36 @@ module.exports.login = (app, req, res) => {
         let senha = aluno.senha;
 
         if(senha == stringData){
-            
             const key = require('../../key');
-            res.redirect('/studentPage?key=' + key + '&matricula=' + result[0].matricula + '&password=' + (stringData * cripto));
+            res.redirect('/admin/studentPage?key=' + key + '&matricula=' + result[0].matricula + '&password=' + (stringData * 24244142));
             console.log("Student validated");
         }else{
-            res.render("home/home", {validacao: {}, incorrectPassword: true});
+            res.send('Incorrect password');
             console.log("Senha incorreta");
-        
         }
     });
 
 };
+
+module.exports.saveStudent = (app, req, res) => {
+    const novoAluno = req.body;
+
+
+ 
+    const connection = require('../../config/dbConnection');
+    const model = new app.app.models.AlunosDAO(connection);
+
+    model.validarEmail(novoAluno, (error, result) => {
+        if(result.length > 0){
+            console.log('Email já cadastrado');
+        }else{
+            model.salvarAluno(novoAluno, (error, result) => {
+                console.log('Usuário registrado com sucesso');
+                res.render('admin/register/finalRegister', {matricula: novoAluno.matricula});
+            });
+        }
+    });
+
+    
+
+}

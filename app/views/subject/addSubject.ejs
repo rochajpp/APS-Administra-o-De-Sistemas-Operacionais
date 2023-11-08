@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/subject/styleAdd.css">
+    <title>Nova Disciplina</title>
+</head>
+<body>
+    <div class="contentMain">
+        
+        <form action="/studentPage/saveSubject" method="POST">
+            <h1>Adicionar Disciplina</h1>
+            <input style="display: none" id="idAluno" name="idAluno" value="<%= matricula %>" >
+            <label>Nome</label>
+            <input type="text" id="nome" name="nome" required>
+            <label>Professor</label>
+            <input type="text" id="professor" name="professor" required>
+            <label>Quantidade de notas</label>
+            <input type="number" id="quantNotas" name="quantNotas" required>
+            <label>Localidade</label>
+            <input id="localidade" name="localidade">
+            <label>Sala</label>
+            <input id="sala" name="sala">
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+</body>
+</html>
